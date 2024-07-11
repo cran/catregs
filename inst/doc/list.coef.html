@@ -352,20 +352,34 @@ places to report and the alpha level. For example:</p>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Mize19AH&quot;</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(alcB <span class="sc">~</span>woman<span class="sc">*</span>parrole <span class="sc">+</span> age <span class="sc">+</span> race2 <span class="sc">+</span> race3 <span class="sc">+</span> race4 <span class="sc">+</span> income <span class="sc">+</span> ed1 <span class="sc">+</span> ed2 <span class="sc">+</span> ed3 <span class="sc">+</span> ed4,<span class="at">family=</span><span class="st">&quot;binomial&quot;</span>,<span class="at">data=</span>Mize19AH)</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">list.coef</span>(m1)</span></code></pre></div>
-<pre><code>##        variables      b    SE      z     ll     ul p.val   CI
-## 1    (Intercept)  2.627 0.544  4.827  1.560  3.694 0.000 95 %
-## 2          woman -0.284 0.095 -2.999 -0.470 -0.098 0.004 95 %
-## 3        parrole -0.482 0.105 -4.568 -0.688 -0.275 0.000 95 %
-## 4            age -0.086 0.019 -4.603 -0.123 -0.049 0.000 95 %
-## 5          race2 -0.445 0.078 -5.726 -0.598 -0.293 0.000 95 %
-## 6          race3  0.284 0.443  0.641 -0.584  1.152 0.325 95 %
-## 7          race4 -0.153 0.197 -0.778 -0.539  0.233 0.295 95 %
-## 8         income  0.008 0.001  5.505  0.005  0.011 0.000 95 %
-## 9            ed1  0.460 0.153  3.006  0.160  0.760 0.004 95 %
-## 10           ed2  0.610 0.143  4.256  0.329  0.891 0.000 95 %
-## 11           ed3  0.765 0.154  4.967  0.463  1.067 0.000 95 %
-## 12           ed4  0.680 0.177  3.833  0.332  1.028 0.000 95 %
-## 13 woman:parrole -0.215 0.138 -1.561 -0.486  0.055 0.118 95 %</code></pre>
+<pre><code>##        variables      b    SE      z     ll     ul p.val  exp.b ll.exp.b
+## 1    (Intercept)  2.627 0.544  4.827  1.560  3.694 0.000 13.836    4.761
+## 2          woman -0.284 0.095 -2.999 -0.470 -0.098 0.004  0.753    0.625
+## 3        parrole -0.482 0.105 -4.568 -0.688 -0.275 0.000  0.618    0.502
+## 4            age -0.086 0.019 -4.603 -0.123 -0.049 0.000  0.917    0.884
+## 5          race2 -0.445 0.078 -5.726 -0.598 -0.293 0.000  0.641    0.550
+## 6          race3  0.284 0.443  0.641 -0.584  1.152 0.325  1.328    0.557
+## 7          race4 -0.153 0.197 -0.778 -0.539  0.233 0.295  0.858    0.583
+## 8         income  0.008 0.001  5.505  0.005  0.011 0.000  1.008    1.005
+## 9            ed1  0.460 0.153  3.006  0.160  0.760 0.004  1.584    1.173
+## 10           ed2  0.610 0.143  4.256  0.329  0.891 0.000  1.840    1.390
+## 11           ed3  0.765 0.154  4.967  0.463  1.067 0.000  2.150    1.589
+## 12           ed4  0.680 0.177  3.833  0.332  1.028 0.000  1.974    1.394
+## 13 woman:parrole -0.215 0.138 -1.561 -0.486  0.055 0.118  0.806    0.615
+##    ul.exp.b  percent   CI
+## 1    40.205 1283.553 95 %
+## 2     0.906  -24.723 95 %
+## 3     0.760  -38.228 95 %
+## 4     0.952   -8.253 95 %
+## 5     0.746  -35.933 95 %
+## 6     3.166   32.842 95 %
+## 7     1.262  -14.202 95 %
+## 8     1.011    0.798 95 %
+## 9     2.137   58.371 95 %
+## 10    2.437   84.042 95 %
+## 11    2.908  114.969 95 %
+## 12    2.795   97.413 95 %
+## 13    1.057  -19.368 95 %</code></pre>
 <p>In the above, b refers to the original model coefficient, S.E. to the
 estimated model coefficient’s standard error, Z is the z-statistic
 (b/se(b)), LL.CI is the lower limit of the confidence interval around
