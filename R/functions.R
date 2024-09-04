@@ -311,14 +311,21 @@ margins.dat <- function (mod, des, alpha = 0.05, rounded = 3, cumulate = "no",
       }
       if (is(mod,"clmm")) {
         out <- suppressMessages(data.frame(emmeans::emmeans(mod,~dv,mode="prob",at=as.list(des[1,]))))
+        out <- out[,1:3]
+        colnames(out) <- c("dv.level","fitted","se")
+        out[,2:3]<- round(out[,2:3],rounded)
+        out <- suppressWarnings(suppressMessages(data.frame(des[1,],out)))
+
         if(nrow(des) >1){for(i in 2:nrow(des)){
           out2 <- suppressMessages(data.frame(emmeans::emmeans(mod,~dv,mode="prob",at=as.list(des[i,]))))
+          out2 <- out2[,1:3]
+          colnames(out2) <- c("dv.level","fitted","se")
+          out2[,2:3]<- round(out2[,2:3],rounded)
+          out2 <- suppressWarnings(suppressMessages(data.frame(des[i,],out2)))
           out <- rbind(out,out2)}}
-        ll <- out[,2] - qnorm(1 - (alpha/2), lower.tail = TRUE) *
-          out$SE
-        ul <- out[,2] + qnorm(1 - (alpha/2), lower.tail = TRUE) *
-          out$SE
-        marginsdat <- data.frame(des,dv.level = out[,1], fitted = round(out[,2],rounded), se = round(out[,3], rounded), ll = round(ll,rounded), ul = round(ul, rounded))
+        marginsdat <- data.frame(dplyr::mutate(out,
+                                        ll=(fitted - qnorm(1 - (alpha/2), lower.tail = TRUE) *se),
+                                        ul=(fitted + qnorm(1 - (alpha/2), lower.tail = TRUE) *se)))
       }
     }
     else {
