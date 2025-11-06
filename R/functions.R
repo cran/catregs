@@ -314,18 +314,18 @@ margins.dat <- function (mod, des, alpha = 0.05, rounded = 3, cumulate = "no",
         out <- out[,1:3]
         colnames(out) <- c("dv.level","fitted","se")
         out[,2:3]<- round(out[,2:3],rounded)
-        out <- suppressWarnings(suppressMessages(data.frame(des[1,],out)))
+        out <- suppressWarnings(suppressMessages(data.frame(round(des[1,],rounded),out)))
 
         if(nrow(des) >1){for(i in 2:nrow(des)){
           out2 <- suppressMessages(data.frame(emmeans::emmeans(mod,~dv,mode="prob",at=as.list(des[i,]))))
           out2 <- out2[,1:3]
           colnames(out2) <- c("dv.level","fitted","se")
           out2[,2:3]<- round(out2[,2:3],rounded)
-          out2 <- suppressWarnings(suppressMessages(data.frame(des[i,],out2)))
+          out2 <- suppressWarnings(suppressMessages(data.frame(round(des[i,],rounded),out2)))
           out <- rbind(out,out2)}}
         marginsdat <- data.frame(dplyr::mutate(out,
-                                        ll=(fitted - qnorm(1 - (alpha/2), lower.tail = TRUE) *se),
-                                        ul=(fitted + qnorm(1 - (alpha/2), lower.tail = TRUE) *se)))
+                                        ll=round((fitted - qnorm(1 - (alpha/2), lower.tail = TRUE) *se),rounded),
+                                        ul=round((fitted + qnorm(1 - (alpha/2), lower.tail = TRUE) *se),rounded)))
       }
     }
     else {

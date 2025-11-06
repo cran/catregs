@@ -48,8 +48,9 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -60,7 +61,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -353,16 +354,14 @@ is from a simulated draw from a normal distribution.</p>
 ## 2        1      0  3.602404 53.14563
 ## 3        0      1  3.602404 53.14563
 ## 4        1      1  3.602404 53.14563</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>ma1<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(marginaleffects<span class="sc">::</span><span class="fu">avg_slopes</span>(m1,<span class="at">variables=</span><span class="st">&quot;female&quot;</span>,<span class="at">newdata=</span><span class="fu">data.frame</span>(<span class="at">minority=</span><span class="dv">0</span>,<span class="at">religious=</span><span class="fl">3.6024</span>,<span class="at">age=</span><span class="fl">53.146</span>)))</span></code></pre></div>
-<pre><code>## Warning: The `female` variable is treated as a categorical (factor) variable, but
-##   the original data is of class NULL. It is safer and faster to convert
-##   such variables to factor before fitting the model and calling a
-##   `marginaleffects` function.
-##   
-##   This warning appears once per session.</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>ma2<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(marginaleffects<span class="sc">::</span><span class="fu">avg_slopes</span>(m1,<span class="at">variables=</span><span class="st">&quot;female&quot;</span>,<span class="at">newdata=</span><span class="fu">data.frame</span>(<span class="at">minority=</span><span class="dv">1</span>,<span class="at">religious=</span><span class="fl">3.6024</span>,<span class="at">age=</span><span class="fl">53.146</span>)))</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>cames <span class="ot">&lt;-</span> <span class="fu">rbind</span>(ma2,ma1)</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">compare.margins</span>(<span class="at">margins=</span>cames<span class="sc">$</span>estimate,<span class="at">margins.ses=</span>cames<span class="sc">$</span>std.error)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>ma1 <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.data.frame</span>(marginaleffects<span class="sc">::</span><span class="fu">avg_slopes</span>(m1,</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                                                                         <span class="at">variables=</span><span class="st">&quot;female&quot;</span>,<span class="at">newdata=</span>marginaleffects<span class="sc">::</span><span class="fu">datagrid</span>(<span class="at">minority=</span><span class="dv">0</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                                                                                                                              <span class="at">religious=</span><span class="fl">3.6024</span>,<span class="at">age=</span><span class="fl">53.146</span>))))</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>ma2 <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.data.frame</span>(marginaleffects<span class="sc">::</span><span class="fu">avg_slopes</span>(m1,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>                                                                  <span class="at">variables=</span><span class="st">&quot;female&quot;</span>,<span class="at">newdata=</span>marginaleffects<span class="sc">::</span><span class="fu">datagrid</span>(<span class="at">minority=</span><span class="dv">1</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>                                                                                                                       <span class="at">religious=</span><span class="fl">3.6024</span>,<span class="at">age=</span><span class="fl">53.146</span>))))</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>cames <span class="ot">&lt;-</span> <span class="fu">rbind</span>(ma2,ma1)</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">compare.margins</span>(<span class="at">margins=</span>cames<span class="sc">$</span>estimate,<span class="at">margins.ses=</span>cames<span class="sc">$</span>std.error)</span></code></pre></div>
 <pre><code>##   Difference p-value
 ## 1  0.1447181  0.0199</code></pre>
 
